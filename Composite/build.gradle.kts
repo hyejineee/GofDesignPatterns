@@ -19,6 +19,9 @@ repositories {
 }
 
 dependencies {
+
+    //testImplementation "junit:junit:$junit_version"
+    testImplementation("org.assertj:assertj-core:3.11.1")
     // Align versions of all Kotlin components
     implementation(platform("org.jetbrains.kotlin:kotlin-bom"))
 
