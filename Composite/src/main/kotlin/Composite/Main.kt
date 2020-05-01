@@ -5,8 +5,27 @@ package Composite
 
 fun main(args: Array<String>) {
 
+
 }
 
-fun makeDirectory(dirName: String) {
-    println("/root")
+class Directory(val name: String) {
+    var childs = listOf<Directory>()
+
+    fun add(dir: Directory) {
+        val copy = childs.toMutableList().apply {
+            add(dir)
+        }
+        childs = copy
+    }
+
+    fun printDir(parentsDir: String) {
+
+        print("$parentsDir/$name\n")
+
+        if (childs.isNotEmpty()) {
+            childs.map {
+                it.printDir("$parentsDir/$name")
+            }
+        }
+    }
 }

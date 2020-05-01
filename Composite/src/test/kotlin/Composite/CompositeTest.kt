@@ -6,7 +6,7 @@ import org.junit.Test
 import java.io.ByteArrayOutputStream
 import java.io.PrintStream
 
-class CompositeTest {
+internal class CompositeTest {
     lateinit var outContent: ByteArrayOutputStream
 
     @Before
@@ -16,10 +16,46 @@ class CompositeTest {
     }
 
     @Test
-    fun `디렉토리 만들기 테스트`() {
-        makeDirectory("root")
-        
-        assertThat(outContent.toString()).isEqualTo("/root")
+    fun `형제가 없는 디렉토리 구조 만들기 테스트`() {
+        val directory = Directory("/")
+
+//        directory.add("root")
+//        directory.add("bin")
+//        directory.add("tmp")
+//        directory.add("usr")
+
+        directory.add(Directory("root"))
+        directory.add(Directory("bin"))
+        directory.add(Directory("tmp"))
+        directory.add(Directory("usr"))
+
+        directory.printDir("")
+
+        assertThat(outContent.toString()).isEqualTo("/root/bin/tmp")
+    }
+
+    @Test
+    fun `형제가 있는 디렉토리 구조 만들기 테스트`() {
+
+        val rootDir = Directory("root")
+        val binDir = Directory("bin")
+        val tmpDir = Directory("tmp")
+        val usrDir = Directory("usr")
+
+        rootDir.apply {
+            add(binDir)
+            add(tmpDir)
+            add(usrDir)
+        }
+
+        rootDir.printDir("")
+
+        assertThat(outContent.toString()).isEqualTo(
+                "/root\n" +
+                        "/root/bin\n" +
+                        "/root/tmp\n" +
+                        "/root/usr\n"
+        )
     }
 
 }
