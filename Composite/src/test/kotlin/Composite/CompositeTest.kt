@@ -56,6 +56,24 @@ internal class CompositeTest {
                         "/root/tmp\n" +
                         "/root/usr\n"
         )
+
+        binDir.apply {
+            add(Directory("tmp"))
+        }
+        rootDir.printDir("")
+
+        assertThat(outContent.toString()).isEqualTo(
+                "/root\n" +
+                        "/root/bin\n" +
+                        "/root/tmp\n" +
+                        "/root/usr\n" +
+                        "/root\n" +
+                        "/root/bin\n" +
+                        "/root/bin/tmp\n" +
+                        "/root/tmp\n" +
+                        "/root/usr\n"
+        )
     }
+
 
 }
