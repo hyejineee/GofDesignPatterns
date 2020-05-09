@@ -1,7 +1,14 @@
 package Composite
 
 class Directory(name: String, size: Int = 0) : Entry(name, size) {
+
     private var childs = listOf<Entry>()
+
+    override var size: Int = 0
+        get() = childs.sumBy { it.size }
+        set(value) {
+            field = value
+        }
 
     override fun add(entry: Entry) {
         val copy = childs.toMutableList().apply {
@@ -18,5 +25,15 @@ class Directory(name: String, size: Int = 0) : Entry(name, size) {
                 it.printList("$parentsDir/$name")
             }
         }
+    }
+
+    override fun printSize(dir: String, size: Int) {
+
+        if (childs.isNotEmpty()) {
+            childs.map {
+                it.printSize("$dir/$name", this.size + size)
+            }
+        }
+        print("$dir/$name , size = ${childs.sumBy { it.size }}\n")
     }
 }
