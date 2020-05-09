@@ -69,23 +69,6 @@ internal class CompositeTest {
                         "/root/tmp\n" +
                         "/root/usr\n"
         )
-
-        binDir.apply {
-            add(Directory("tmp"))
-        }
-        rootDir.printList("")
-
-        assertThat(outContent.toString()).isEqualTo(
-                "/root\n" +
-                        "/root/bin\n" +
-                        "/root/tmp\n" +
-                        "/root/usr\n" +
-                        "/root\n" +
-                        "/root/bin\n" +
-                        "/root/bin/tmp\n" +
-                        "/root/tmp\n" +
-                        "/root/usr\n"
-        )
     }
 
     @Test
@@ -116,6 +99,46 @@ internal class CompositeTest {
                         "/root/tmp\n" +
                         "/root/usr\n"
 
+        )
+    }
+
+    @Test
+    fun `사이즈 구하기 테스트`() {
+
+        val binDir = Directory("bin").apply {
+            add(File("test1.txt", 200))
+            add(File("test2.txt", 300))
+        }
+        val tmpDir = Directory("tmp").apply {
+            add(File("test1.txt", 1000))
+            add(File("test2.txt", 1000))
+        }
+        val usrDir = Directory("usr")
+
+        val rootDir = Directory("root").apply {
+            /**
+             * 디렉토리에 자식을 추가하는 연산을 동일하게 사용하기 위해서
+             * Directory class와 File class의 공통이 부분을 모아 인터페이스로 정의한다.
+             * */
+            add(File("memo.txt", 1000))
+
+            add(binDir)
+            add(tmpDir)
+            add(usrDir)
+        }
+
+        rootDir.printSize()
+
+        assertThat(outContent.toString()).isEqualTo(
+                "/root/memo.txt , size = 1000\n" +
+                        "/root/bin/test1.txt , size = 200\n" +
+                        "/root/bin/test2.txt , size = 300\n" +
+                        "/root/bin , size = 500\n" +
+                        "/root/tmp/test1.txt , size = 1000\n" +
+                        "/root/tmp/test2.txt , size = 1000\n" +
+                        "/root/tmp , size = 2000\n" +
+                        "/root/usr , size = 0\n" +
+                        "/root , size = 3500\n"
         )
     }
 }
