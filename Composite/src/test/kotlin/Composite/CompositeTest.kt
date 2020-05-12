@@ -130,15 +130,16 @@ internal class CompositeTest {
         rootDir.printSize()
 
         assertThat(outContent.toString()).isEqualTo(
-                "/root/memo.txt , size = 1000\n" +
+                "/root , size = 3500\n" +
+                        "/root/memo.txt , size = 1000\n" +
+                        "/root/bin , size = 500\n" +
                         "/root/bin/test1.txt , size = 200\n" +
                         "/root/bin/test2.txt , size = 300\n" +
-                        "/root/bin , size = 500\n" +
+                        "/root/tmp , size = 2000\n" +
                         "/root/tmp/test1.txt , size = 1000\n" +
                         "/root/tmp/test2.txt , size = 1000\n" +
-                        "/root/tmp , size = 2000\n" +
-                        "/root/usr , size = 0\n" +
-                        "/root , size = 3500\n"
+                        "/root/usr , size = 0\n"
+
         )
     }
 }

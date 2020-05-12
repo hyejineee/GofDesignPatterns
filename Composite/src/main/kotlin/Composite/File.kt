@@ -8,7 +8,7 @@ class File(name: String, size: Int = 0) : Entry(name, size) {
         print("$parentsDir/$name")
     }
 
-    override fun printSize(dir: String, size: Int) {
+    override fun printSize(dir: String) {
         print("$dir/$name , size = ${this.size}\n")
     }
 }

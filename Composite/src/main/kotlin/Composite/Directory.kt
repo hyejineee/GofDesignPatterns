@@ -27,13 +27,16 @@ class Directory(name: String, size: Int = 0) : Entry(name, size) {
         }
     }
 
-    override fun printSize(dir: String, size: Int) {
+    override fun printSize(dir: String) {
+
+        print("$dir/$name , size = ${this.size}\n")
 
         if (childs.isNotEmpty()) {
             childs.map {
-                it.printSize("$dir/$name", this.size + size)
+                it.printSize("$dir/$name")
             }
         }
-        print("$dir/$name , size = ${childs.sumBy { it.size }}\n")
+
+
     }
 }
